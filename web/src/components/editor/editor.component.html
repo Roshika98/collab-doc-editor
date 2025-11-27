@@ -1,0 +1,35 @@
+<div class="editor-container">
+  <div class="editor-header">
+    <div class="title-section">
+      <input
+        type="text"
+        class="document-title"
+        [(ngModel)]="documentTitle"
+        (ngModelChange)="onTitleChange($event)"
+        placeholder="Untitled Document"
+      />
+      <span class="status-indicator" [class.saving]="isSaving">
+        {{ getStatusText() }}
+      </span>
+    </div>
+
+    <app-collaborators-bar [collaborators]="collaborators"></app-collaborators-bar>
+  </div>
+
+  <div class="editor-workspace">
+    <div class="document-paper">
+      <textarea
+        class="document-content"
+        [(ngModel)]="documentContent"
+        (ngModelChange)="onContentChange($event)"
+        placeholder="Start typing..."
+        spellcheck="true"
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="connection-status" [class.connected]="isConnected">
+    <span class="status-dot"></span>
+    {{ isConnected ? 'Connected' : 'Offline' }}
+  </div>
+</div>

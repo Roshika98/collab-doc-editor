@@ -1,0 +1,16 @@
+<div class="collaborators-bar">
+  <div class="collaborators-list">
+    <div
+      *ngFor="let collaborator of getActiveCollaborators()"
+      class="collaborator-avatar"
+      [style.background-color]="collaborator.color"
+      [title]="collaborator.name + ' (' + collaborator.email + ')'"
+    >
+      {{ getInitials(collaborator.name) }}
+    </div>
+  </div>
+
+  <button class="share-button">
+    Share
+  </button>
+</div>
