@@ -13,6 +13,8 @@ const SOCKET_EVENTS = {
 	UPDATE_DOCUMENT: "update_document",
 	CREATE_DOCUMENT: "create_document",
 	USER_JOINED: "user_joined",
+	EDIT_DOCUMENT: "edit_document",
+	DOCUMENT_EDITED: "document_edited",
 };
 
 class SocketManager {
@@ -45,9 +47,6 @@ class SocketManager {
 
 	setupSocketEvents() {
 		this.io.use((socket, next) => {
-			console.log("Socket middleware");
-			console.log(socket.handshake.headers);
-
 			if (!socket.handshake.headers["x-auth-token"]) {
 				return next(new Error("Unauthorized"));
 			}
@@ -88,10 +87,28 @@ class SocketManager {
 						message: `Joined room ${documentId}`,
 					});
 				}
-				this.io.to(documentId).emit(SOCKET_EVENTS.USER_JOINED, {
+				socket.to(documentId).emit(SOCKET_EVENTS.USER_JOINED, {
 					userId: socket.id,
 					username: socket.username,
 					color: socket.color,
+				});
+			});
+
+			socket.on(SOCKET_EVENTS.EDIT_DOCUMENT, ({ documentId, documentData }, ack) => {
+				console.log("Editing document");
+
+				// TODO: Implement document editing logic or save to database
+
+				if (typeof ack === "function") {
+					ack(null, {
+						success: true,
+						message: "Document edited successfully",
+					});
+				}
+
+				socket.to(documentId).emit(SOCKET_EVENTS.DOCUMENT_EDITED, {
+					documentId,
+					documentData,
 				});
 			});
 		});
