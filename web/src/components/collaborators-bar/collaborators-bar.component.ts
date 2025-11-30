@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Collaborator } from '../../models/document.model';
 
 @Component({
   selector: 'app-collaborators-bar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './collaborators-bar.component.html',
   styleUrls: ['./collaborators-bar.component.css']
 })

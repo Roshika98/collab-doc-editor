@@ -30,7 +30,7 @@ class SocketManager {
 	constructor(server) {
 		this.io = new Server(server, {
 			cors: {
-				origin: "http://localhost:3000",
+				origin: "http://localhost:4200",
 				methods: ["GET", "POST"],
 				credentials: true,
 				allowedHeaders: ["x-auth-token"],
@@ -47,6 +47,8 @@ class SocketManager {
 
 	setupSocketEvents() {
 		this.io.use((socket, next) => {
+			console.log("Socket handshake headers:", socket.handshake.headers);
+			
 			if (!socket.handshake.headers["x-auth-token"]) {
 				return next(new Error("Unauthorized"));
 			}
