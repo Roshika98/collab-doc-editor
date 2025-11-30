@@ -34,7 +34,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 	) {}
 
   ngOnInit(): void {
-    this.socketService.initiateSocketClient();
+		this.socketService.initiateSocketClient();
 		const documentId = this.route.snapshot.paramMap.get("id") || "default-doc";
 
 		this.documentService.loadMockDocument(documentId);
@@ -53,9 +53,15 @@ export class EditorComponent implements OnInit, OnDestroy {
 				this.collaborators = collaborators;
 			});
 
-		this.documentService.isConnected$.pipe(takeUntil(this.destroy$)).subscribe((connected) => {
-			this.isConnected = connected;
+		this.socketService.onConnectionStatus$.pipe(takeUntil(this.destroy$)).subscribe({
+			next: (status) => {
+				this.isConnected = status;
+			},
 		});
+
+		// this.documentService.isConnected$.pipe(takeUntil(this.destroy$)).subscribe((connected) => {
+		// 	this.isConnected = connected;
+		// });
 
 		this.contentChange$.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((content) => {
 			this.saveContent(content);
