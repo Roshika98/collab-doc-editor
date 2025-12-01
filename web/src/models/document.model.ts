@@ -21,3 +21,10 @@ export interface DocumentPermission {
   userId: string;
   role: 'owner' | 'editor' | 'viewer';
 }
+
+
+export interface DocumentItem extends Document {
+	ownerName: string;
+	role: "owner" | "editor" | "viewer";
+	sharedWith: number;
+}

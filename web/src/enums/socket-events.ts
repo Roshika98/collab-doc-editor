@@ -1,5 +1,5 @@
 export enum SocketEvents {
-	DOCUMENT_UPDATED = "update_document",
+	DOCUMENT_UPDATE = "edit_document",
 	COLLABORATOR_UPDATED = "collaborator-updated",
 	CONNECT = "connect",
 	DISCONNECT = "disconnect",
@@ -7,5 +7,8 @@ export enum SocketEvents {
 	ERROR = "error",
 	RECONNECT = "reconnect",
 	JOIN_ROOM = "join_room",
-	USER_JOINED = "user_joined",
+	BC_USER_JOINED = "broadcast_user_joined",
+	CURSOR_POSITION_UPDATE = "cursor_position_update",
+	BC_CURSOR_POSITION = "broadcast_cursor_position",
+	BC_DOCUMENT_EDIT = "broadcast_document_edit",
 }

@@ -5,16 +5,13 @@ const SOCKET_EVENTS = {
 	DISCONNECT: "disconnect",
 	JOIN_ROOM: "join_room",
 	LEAVE_ROOM: "leave_room",
-	SEND_MESSAGE: "send_message",
-	RECEIVE_MESSAGE: "receive_message",
-	TYPING: "typing",
-	STOP_TYPING: "stop_typing",
-	READ_MESSAGES: "read_messages",
-	UPDATE_DOCUMENT: "update_document",
+	// UPDATE_DOCUMENT: "update_document",
 	CREATE_DOCUMENT: "create_document",
-	USER_JOINED: "user_joined",
+	BC_USER_JOINED: "broadcast_user_joined",
 	EDIT_DOCUMENT: "edit_document",
-	DOCUMENT_EDITED: "document_edited",
+	BC_DOCUMENT_EDIT: "broadcast_document_edit",
+	CURSOR_POSITION_UPDATE: "cursor_position_update",
+	BC_CURSOR_POSITION: "broadcast_cursor_position",
 };
 
 class SocketManager {
@@ -48,7 +45,7 @@ class SocketManager {
 	setupSocketEvents() {
 		this.io.use((socket, next) => {
 			console.log("Socket handshake headers:", socket.handshake.headers);
-			
+
 			if (!socket.handshake.headers["x-auth-token"]) {
 				return next(new Error("Unauthorized"));
 			}
@@ -89,7 +86,7 @@ class SocketManager {
 						message: `Joined room ${documentId}`,
 					});
 				}
-				socket.to(documentId).emit(SOCKET_EVENTS.USER_JOINED, {
+				socket.to(documentId).emit(SOCKET_EVENTS.BC_USER_JOINED, {
 					userId: socket.id,
 					username: socket.username,
 					color: socket.color,
@@ -108,7 +105,7 @@ class SocketManager {
 					});
 				}
 
-				socket.to(documentId).emit(SOCKET_EVENTS.DOCUMENT_EDITED, {
+				socket.to(documentId).emit(SOCKET_EVENTS.BC_DOCUMENT_EDIT, {
 					documentId,
 					documentData,
 				});
