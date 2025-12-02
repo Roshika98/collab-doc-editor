@@ -16,20 +16,22 @@
     <app-collaborators-bar [collaborators]="collaborators"></app-collaborators-bar>
   </div>
 
+  <!-- FIXED: bring back the layout wrapper -->
   <div class="editor-workspace">
-    <div class="document-paper">
-      <textarea
-        class="document-content"
+    <!-- <div class="document-paper"> -->
+      <quill-editor
         [(ngModel)]="documentContent"
+        [modules]="quillModules"
         (ngModelChange)="onContentChange($event)"
-        placeholder="Start typing..."
-        spellcheck="true"
-      ></textarea>
-    </div>
+        style="height: calc(100vh - 200px); width: 80%;"
+        (onEditorCreated)="onEditorReady($event)"
+        >
+      </quill-editor>
+    <!-- </div> -->
   </div>
 
   <div class="connection-status" [class.connected]="isConnected">
     <span class="status-dot"></span>
-    {{ isConnected ? 'Connected' : 'Offline' }}
+    {{ isConnected ? "Connected" : "Offline" }}
   </div>
 </div>

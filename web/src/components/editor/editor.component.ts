@@ -7,11 +7,13 @@ import { DocumentService } from '../../services/document.service';
 import { Document, Collaborator } from '../../models/document.model';
 import { CollaboratorsBarComponent } from '../collaborators-bar/collaborators-bar.component';
 import { SocketService } from "../../services/socket-service";
+import { QuillModule } from "ngx-quill";
+import Quill from "quill";
 
 @Component({
 	selector: "app-editor",
 	standalone: true,
-	imports: [FormsModule, CollaboratorsBarComponent],
+	imports: [FormsModule, CollaboratorsBarComponent, QuillModule],
 	templateUrl: "./editor.component.html",
 	styleUrls: ["./editor.component.css"],
 })
@@ -27,13 +29,24 @@ export class EditorComponent implements OnInit, OnDestroy {
 	private destroy$ = new Subject<void>();
 	private contentChange$ = new Subject<string>();
 
+	private quillEditor!: Quill;
+
+	public quillModules = {
+		toolbar: [
+			["bold", "italic", "underline"],
+			[{ header: 1 }, { header: 2 }],
+			[{ list: "ordered" }, { list: "bullet" }],
+			["link", "image"],
+		],
+	};
+
 	constructor(
 		private documentService: DocumentService,
 		private socketService: SocketService,
 		private route: ActivatedRoute
 	) {}
 
-  ngOnInit(): void {
+	ngOnInit(): void {
 		this.socketService.initiateSocketClient();
 		const documentId = this.route.snapshot.paramMap.get("id") || "default-doc";
 
@@ -65,6 +78,14 @@ export class EditorComponent implements OnInit, OnDestroy {
 
 		this.contentChange$.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((content) => {
 			this.saveContent(content);
+		});
+	}
+
+	onEditorReady(quill: Quill): void {
+		this.quillEditor = quill;
+
+		this.quillEditor.on("text-change", (data) => {
+			console.log("Text change event:", data);
 		});
 	}
 

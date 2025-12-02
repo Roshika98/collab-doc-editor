@@ -65,11 +65,14 @@
 .document-paper {
   width: 100%;
   max-width: 850px;
-  background-color: #ffffff;
+  background: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   min-height: calc(100vh - 200px);
-  position: relative;
+    /* Important */
+    padding: 40px;
+    /* optional */
 }
+
 
 .document-content {
   width: 100%;
