@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const OpIdSchema = new Schema(
+const opIdSchema = new Schema(
 	{
 		client: { type: String, required: true },
 		clock: { type: Number, required: true },
@@ -8,26 +8,26 @@ const OpIdSchema = new Schema(
 	{ _id: false }
 );
 
-const InsertOpSchema = new Schema(
+const insertOpSchema = new Schema(
 	{
 		type: { type: String, enum: ["insert"], required: true },
-		id: { type: OpIdSchema, required: true },
-		parent: { type: OpIdSchema, default: null },
+		id: { type: opIdSchema, required: true },
+		parent: { type: opIdSchema, default: null },
 		text: { type: String, default: "" },
 		attributes: { type: Object, default: {} },
 	},
 	{ _id: false }
 );
 
-const DeleteOpSchema = new Schema(
+const deleteOpSchema = new Schema(
 	{
 		type: { type: String, enum: ["delete"], required: true },
-		target: { type: OpIdSchema, required: true },
+		target: { type: opIdSchema, required: true },
 	},
 	{ _id: false }
 );
 
-const UpdateSchema = new Schema({
+const updateSchema = new Schema({
 	docId: { type: String, required: true, index: true },
 
 	// CRDT op (insert or delete)
@@ -48,8 +48,8 @@ const UpdateSchema = new Schema({
 	},
 });
 
-UpdateSchema.index({ docId: 1, timestamp: 1 });
+updateSchema.index({ docId: 1, timestamp: 1 });
 
-const DocumentUpdate = model("DocumentUpdate", UpdateSchema);
+const DocumentUpdate = model("DocumentUpdate", updateSchema);
 
 module.exports = DocumentUpdate;

@@ -4,6 +4,9 @@ const { SocketManager } = require("./managers/socket-manager");
 
 const app = express();
 
+app.use(express.json());
+app.use("/api", require("./routes"));
+
 const server = http.createServer(app);
 
 server.listen(3000, () => {
