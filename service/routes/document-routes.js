@@ -1,11 +1,11 @@
 const express = require("express");
 const {
-	createDocument,
+	createDocumentController,
 	getDocument,
 	deleteDocument,
 } = require("../controllers/document-controller");
 const router = express.Router();
 
-router.route("/docs").post(createDocument).get(getDocument).delete(deleteDocument);
+router.route("/").post(createDocumentController).get(getDocument).delete(deleteDocument);
 
 module.exports = router;
