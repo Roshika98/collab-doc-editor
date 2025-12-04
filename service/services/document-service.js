@@ -5,4 +5,5 @@ const createDocument = async () => {
 	console.log("New document created with ID:", result.id);
 	return result;
 };
+
 module.exports = { createDocument };
