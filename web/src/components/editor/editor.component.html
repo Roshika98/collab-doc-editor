@@ -1,19 +1,41 @@
 <div class="editor-container">
   <div class="editor-header">
-    <div class="title-section">
-      <input
-        type="text"
-        class="document-title"
-        [(ngModel)]="documentTitle"
-        (ngModelChange)="onTitleChange($event)"
-        placeholder="Untitled Document"
-      />
-      <span class="status-indicator" [class.saving]="isSaving">
-        {{ getStatusText() }}
-      </span>
+    <div class="header-left">
+      <!-- (click)="goBackToDashboard()" -->
+      <button class="back-button"  title="Back to documents">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <div class="title-section">
+        <input
+          type="text"
+          class="document-title"
+          [(ngModel)]="documentTitle"
+          (ngModelChange)="onTitleChange($event)"
+          placeholder="Untitled Document"
+        />
+        <span class="status-indicator" [class.saving]="isSaving">
+          {{ getStatusText() }}
+        </span>
+      </div>
     </div>
 
-    <app-collaborators-bar [collaborators]="collaborators"></app-collaborators-bar>
+    <div class="header-right">
+      <!-- (click)="createNewDocument()"
+      [disabled]="isCreatingFromEditor" -->
+      <button class="new-doc-button"  >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+        New
+      </button>
+      <!-- (shareClick)="onShareButtonClick()" -->
+      <app-collaborators-bar
+        [collaborators]="collaborators"
+        
+      ></app-collaborators-bar>
+    </div>
   </div>
 
   <!-- FIXED: bring back the layout wrapper -->

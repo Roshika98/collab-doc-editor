@@ -4,6 +4,12 @@
   flex-direction: column;
   background-color: #f8f9fa;
 }
+.editor-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+}
 
 .editor-header {
   background-color: #ffffff;
@@ -12,17 +18,117 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #5f6368;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.back-button:hover {
+  background-color: #f1f3f4;
+  color: #202124;
+}
+
+.back-button:active {
+  transform: scale(0.95);
+}
 .title-section {
   display: flex;
   align-items: center;
   gap: 16px;
   flex: 1;
+  min-width: 0;
 }
 
 .document-title {
+  font-size: 18px;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  max-width: 400px;
+  min-width: 0;
+}
+
+.document-title:hover {
+  background-color: #f1f3f4;
+}
+
+.document-title:focus {
+  background-color: #ffffff;
+  box-shadow: 0 0 0 2px #4F46E5;
+}
+
+.new-doc-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background-color: transparent;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #202124;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.new-doc-button:hover:not(:disabled) {
+  background-color: #f1f3f4;
+  border-color: #9aa0a6;
+}
+
+.new-doc-button:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.new-doc-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* .title-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+} */
+
+/* .document-title {
   font-size: 18px;
   font-weight: 500;
   border: none;
@@ -40,8 +146,7 @@
 .document-title:focus {
   background-color: #ffffff;
   box-shadow: 0 0 0 2px #4F46E5;
-}
-
+} */
 .status-indicator {
   font-size: 13px;
   color: #5f6368;

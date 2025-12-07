@@ -45,10 +45,11 @@ export class DocumentsDashboardComponent implements OnInit, OnDestroy {
 		});
 
 		this.documentService.newDocument$.pipe(takeUntil(this.destroy$)).subscribe({
-			next: (newDocId) => {
-				if (newDocId) {
+			next: (resource) => {
+				if (resource) {
 					this.isCreating = false;
-					this.router.navigate(["/editor", newDocId]);
+					if (resource.status) this.router.navigate([`/editor/${resource.data}`]);
+					else console.log("an error occured while creating a document");
 				}
 			},
 			error: (err) => {

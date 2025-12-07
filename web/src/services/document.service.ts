@@ -22,7 +22,11 @@ export class DocumentService {
 	private sharedDocumentsSubject = new BehaviorSubject<DocumentItem[]>([]);
 	public sharedDocuments$ = this.sharedDocumentsSubject.asObservable();
 
-	private newDocumentSubject = new BehaviorSubject<string | null>(null);
+	private newDocumentSubject = new BehaviorSubject<{
+		status: number;
+		data?: string;
+		error?: any;
+	} | null>(null);
 	public newDocument$ = this.newDocumentSubject.asObservable();
 
 	constructor(private apiService: ApiService) {}
@@ -157,11 +161,11 @@ export class DocumentService {
 				console.log(response);
 
 				const newDocId = response.data.document.id;
-				this.newDocumentSubject.next(newDocId);
+				this.newDocumentSubject.next({ status: 1, data: newDocId });
 			},
 			error: (err) => {
 				console.error("Error creating document:", err);
-				this.newDocumentSubject.error(err);
+				this.newDocumentSubject.next({ status: 0, error: err });
 			},
 		});
 	}

@@ -44,7 +44,7 @@ class SocketManager {
 
 	setupSocketEvents() {
 		this.io.use((socket, next) => {
-			console.log("Socket handshake headers:", socket.handshake.headers);
+			// console.log("Socket handshake headers:", socket.handshake.headers);
 
 			if (!socket.handshake.headers["x-auth-token"]) {
 				return next(new Error("Unauthorized"));
