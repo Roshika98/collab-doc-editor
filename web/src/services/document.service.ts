@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Document, Collaborator, DocumentItem } from "../models/document.model";
+import { ApiService } from "./api-service";
 
 @Injectable({
 	providedIn: "root",
@@ -20,6 +21,11 @@ export class DocumentService {
 
 	private sharedDocumentsSubject = new BehaviorSubject<DocumentItem[]>([]);
 	public sharedDocuments$ = this.sharedDocumentsSubject.asObservable();
+
+	private newDocumentSubject = new BehaviorSubject<string | null>(null);
+	public newDocument$ = this.newDocumentSubject.asObservable();
+
+	constructor(private apiService: ApiService) {}
 
 	getDocument(documentId: string): Observable<Document | null> {
 		return this.currentDocument$;
@@ -145,23 +151,18 @@ export class DocumentService {
 		this.sharedDocumentsSubject.next(mockSharedDocuments);
 	}
 
-	createNewDocument(title: string): string {
-		const newDocId = "doc-" + Date.now();
-		const newDoc: DocumentItem = {
-			id: newDocId,
-			title: title || "Untitled Document",
-			content: "",
-			ownerId: "current-user-id",
-			createdAt: new Date(),
-			updatedAt: new Date(),
-			ownerName: "You",
-			role: "owner",
-			sharedWith: 0,
-		};
+	createNewDocument(): void {
+		this.apiService.postData("docs", {}).subscribe({
+			next: (response) => {
+				console.log(response);
 
-		const current = this.myDocumentsSubject.value;
-		this.myDocumentsSubject.next([newDoc, ...current]);
-
-		return newDocId;
+				const newDocId = response.data.document.id;
+				this.newDocumentSubject.next(newDocId);
+			},
+			error: (err) => {
+				console.error("Error creating document:", err);
+				this.newDocumentSubject.error(err);
+			},
+		});
 	}
 }

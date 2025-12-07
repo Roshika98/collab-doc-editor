@@ -1,5 +1,10 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const apiInterceptor: HttpInterceptorFn = (req, next) => {
-  return next(req);
+  console.log("intercepts");
+
+	const modifiedReq = req.clone({
+		withCredentials: true,
+	});
+	return next(modifiedReq);
 };

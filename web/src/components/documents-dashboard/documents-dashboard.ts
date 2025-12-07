@@ -43,15 +43,29 @@ export class DocumentsDashboardComponent implements OnInit, OnDestroy {
 		this.documentService.sharedDocuments$.pipe(takeUntil(this.destroy$)).subscribe((docs) => {
 			this.sharedDocuments = docs;
 		});
+
+		this.documentService.newDocument$.pipe(takeUntil(this.destroy$)).subscribe({
+			next: (newDocId) => {
+				if (newDocId) {
+					this.isCreating = false;
+					this.router.navigate(["/editor", newDocId]);
+				}
+			},
+			error: (err) => {
+				this.isCreating = false;
+				console.log("an error occured while creating a new document");
+			},
+		});
 	}
 
 	createNewDocument(): void {
 		this.isCreating = true;
-		setTimeout(() => {
-			const newDocId = this.documentService.createNewDocument("Untitled Document");
-			this.isCreating = false;
-			this.router.navigate(["/editor", newDocId]);
-		}, 300);
+		this.documentService.createNewDocument();
+		// setTimeout(() => {
+		// 	const newDocId = this.documentService.createNewDocument("Untitled Document");
+		// 	this.isCreating = false;
+		// 	this.router.navigate(["/editor", newDocId]);
+		// }, 300);
 	}
 
 	openDocument(documentId: string): void {
