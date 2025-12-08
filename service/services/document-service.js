@@ -1,4 +1,8 @@
-const { createNewDocument } = require("../repositories/document-repo");
+const {
+	createNewDocument,
+	getDocuments,
+	getDocumentById,
+} = require("../repositories/document-repo");
 
 const createDocument = async () => {
 	const result = await createNewDocument();
@@ -6,4 +10,14 @@ const createDocument = async () => {
 	return result;
 };
 
-module.exports = { createDocument };
+const getAllDocuments = async () => {
+	const docs = await getDocuments();
+	return docs;
+};
+
+const getDocumentByIdService = async (id) => {
+	const doc = await getDocumentById(id);
+	return doc;
+};
+
+module.exports = { createDocument, getAllDocuments, getDocumentByIdService };

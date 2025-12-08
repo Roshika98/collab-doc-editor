@@ -3,9 +3,15 @@ const {
 	createDocumentController,
 	getDocument,
 	deleteDocument,
+	getAllDocumentsController,
 } = require("../controllers/document-controller");
 const router = express.Router();
 
-router.route("/").post(createDocumentController).get(getDocument).delete(deleteDocument);
+router.get("/:id", getDocument);
+router
+	.route("/")
+	.post(createDocumentController)
+	.get(getAllDocumentsController)
+	.delete(deleteDocument);
 
 module.exports = router;

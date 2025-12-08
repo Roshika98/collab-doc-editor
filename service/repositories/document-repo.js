@@ -10,6 +10,18 @@ const createNewDocument = async () => {
 	return { id: newDoc.id };
 };
 
+const getDocuments = async () => {
+	const docs = await Document.find();
+	return docs;
+};
+
+const getDocumentById = async (id) => {
+	const doc = await Document.findById(id);
+	return doc;
+};
+
 module.exports = {
 	createNewDocument,
+	getDocuments,
+	getDocumentById,
 };
